@@ -1,0 +1,15 @@
+{
+  "chicken breast": ["chicken breasts", "boneless chicken", "chicken cutlets", "chicken tenders"],
+  "ground beef": ["minced beef", "beef mince", "hamburger meat"],
+  "bell pepper": ["bell peppers", "sweet pepper", "capsicum"],
+  "onion": ["onions", "yellow onion", "white onion"],
+  "garlic": ["garlic cloves", "fresh garlic"],
+  "soy sauce": ["soya sauce", "shoyu"],
+  "diced tomatoes": ["canned tomatoes", "chopped tomatoes", "crushed tomatoes"],
+  "tortillas": ["flour tortillas", "corn tortillas", "wraps"],
+  "rice": ["white rice", "jasmine rice", "long grain rice"],
+  "olive oil": ["extra virgin olive oil", "evoo"],
+  "vegetable oil": ["canola oil", "neutral oil", "cooking oil"],
+  "parmesan cheese": ["parmesan", "parmigiano", "parmigiano-reggiano"],
+  "shredded cheese": ["grated cheese", "mexican cheese", "cheddar"]
+}
