@@ -1,8 +1,9 @@
 {
   "chicken breast": ["chicken breasts", "boneless chicken", "chicken cutlets", "chicken tenders"],
   "ground beef": ["minced beef", "beef mince", "hamburger meat"],
-  "bell pepper": ["bell peppers", "sweet pepper", "capsicum"],
-  "onion": ["onions", "yellow onion", "white onion"],
+  "bell pepper": ["bell peppers", "sweet pepper", "capsicum", "green bell pepper", "red bell pepper"],
+  "ground meat": ["ground beef", "minced meat", "minced beef", "beef mince", "hamburger meat"],
+  "onion": ["onions", "yellow onion", "white onion", "spanish onion"],
   "garlic": ["garlic cloves", "fresh garlic"],
   "soy sauce": ["soya sauce", "shoyu"],
   "diced tomatoes": ["canned tomatoes", "chopped tomatoes", "crushed tomatoes"],
