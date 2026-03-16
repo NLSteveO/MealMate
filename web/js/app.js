@@ -77,7 +77,11 @@
   async function loadRecipes() {
     try {
       const res = await fetch("data/recipes.json");
-      recipes = await res.json();
+      var data = await res.json();
+      recipes = data.recipes || data;
+      if (data.synonyms) {
+        MealMatcher.loadSynonyms(data.synonyms);
+      }
       recipeCountEl.textContent = recipes.length + " recipes";
       renderSidebarTags();
       route();
@@ -344,6 +348,23 @@
 
     html += "</div>"; // end right column
     html += "</div>"; // end recipe-body
+
+    var similar = MealMatcher.findSimilar(recipe, recipes, 0.1, 5);
+    if (similar.length > 0) {
+      html += '<div class="similar-recipes">';
+      html += '<div class="section-title">Similar Recipes</div>';
+      html += '<p class="similar-subtitle">Overlapping ingredients for efficient shopping</p>';
+      html += '<div class="similar-grid">';
+      similar.forEach(function (match) {
+        html += '<a class="similar-card" href="#/recipe/' + match.recipe.slug + '">';
+        html += '<span class="similar-match">' + match.percentage + '% match</span>';
+        html += '<span class="similar-title">' + escapeHtml(match.recipe.title) + '</span>';
+        html += '<span class="similar-shared">' + match.shared.length + ' shared item' + (match.shared.length !== 1 ? 's' : '') + '</span>';
+        html += '</a>';
+      });
+      html += '</div>';
+      html += '</div>';
+    }
 
     app.innerHTML = html;
     app.scrollTop = 0;

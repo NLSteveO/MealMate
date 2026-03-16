@@ -1,8 +1,9 @@
-const CACHE_NAME = "mealmate-v5";
+const CACHE_NAME = "mealmate-v6";
 const ASSETS = [
   "./",
   "./index.html",
   "./css/style.css",
+  "./js/matcher.js",
   "./js/app.js",
   "./data/recipes.json",
   "./manifest.json",
