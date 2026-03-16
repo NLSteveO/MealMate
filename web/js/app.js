@@ -249,7 +249,6 @@
         } else {
           html += "<div></div>";
         }
-        html += '<span class="card-badge">' + r.ingredients.length + " items</span>";
         html += "</div>";
 
         html += "</a>";
