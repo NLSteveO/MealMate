@@ -801,7 +801,7 @@ body {
   .content {
     padding: 20px 18px;
     padding-top: calc(var(--header-height) + 16px);
-    padding-bottom: calc(var(--bottom-tab-height) + 16px);
+    padding-bottom: calc(var(--bottom-tab-height) + env(safe-area-inset-bottom, 0px) + 32px);
   }
 
   .recipe-grid {
