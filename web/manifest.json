@@ -2,7 +2,7 @@
   "name": "MealMate",
   "short_name": "MealMate",
   "description": "Personal recipe collection and meal planner",
-  "id": "https://steveokeefe.ca/MealMate/",
+  "id": "https://meals.steveokeefe.ca/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
