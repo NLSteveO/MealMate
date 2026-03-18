@@ -311,9 +311,9 @@
     }
     html += "</div>";
 
-    if (recipe.photo && navigator.onLine) {
+    if (recipe.photo) {
       html += '<div class="recipe-photo">';
-      html += '<img src="' + escapeHtml(recipe.photo) + '" alt="' + escapeHtml(recipe.title) + '" loading="lazy">';
+      html += '<img src="' + escapeHtml(recipe.photo) + '" alt="' + escapeHtml(recipe.title) + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'">';
       html += '</div>';
     }
 
