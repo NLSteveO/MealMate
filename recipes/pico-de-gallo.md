@@ -4,6 +4,8 @@ servings: 4
 prep_time: 15 min
 cook_time: 0 min
 tags: [mexican, condiment, no-cook, fresh]
+source: "https://www.thepioneerwoman.com/food-cooking/recipes/a12379/pico-de-gallo/"
+source_name: "The Pioneer Woman"
 ingredients:
   - item: white onion
     amount: 1

@@ -311,6 +311,12 @@
     }
     html += "</div>";
 
+    if (recipe.photo && navigator.onLine) {
+      html += '<div class="recipe-photo">';
+      html += '<img src="' + escapeHtml(recipe.photo) + '" alt="' + escapeHtml(recipe.title) + '" loading="lazy">';
+      html += '</div>';
+    }
+
     html += '<div class="recipe-body">';
 
     /* Ingredients column */
@@ -348,6 +354,23 @@
 
     html += "</div>"; // end right column
     html += "</div>"; // end recipe-body
+
+    if (recipe.source || recipe.photo_credit) {
+      html += '<div class="recipe-credits">';
+      if (recipe.source) {
+        html += '<span>Recipe from ';
+        if (recipe.source_name) {
+          html += '<a href="' + escapeHtml(recipe.source) + '" target="_blank" rel="noopener">' + escapeHtml(recipe.source_name) + '</a>';
+        } else {
+          html += '<a href="' + escapeHtml(recipe.source) + '" target="_blank" rel="noopener">' + escapeHtml(recipe.source) + '</a>';
+        }
+        html += '</span>';
+      }
+      if (recipe.photo_credit) {
+        html += '<span>Photo: ' + escapeHtml(recipe.photo_credit) + '</span>';
+      }
+      html += '</div>';
+    }
 
     var similar = MealMatcher.findSimilar(recipe, recipes, 0.1, 5);
     if (similar.length > 0) {

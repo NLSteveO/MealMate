@@ -48,6 +48,9 @@ class Recipe:
     instructions: str = ""
     notes: str = ""
     source_path: Optional[Path] = None
+    source: Optional[str] = None
+    source_name: Optional[str] = None
+    photo_credit: Optional[str] = None
     
     @property
     def ingredient_names(self) -> Set[str]:
@@ -93,6 +96,9 @@ def parse_recipe(filepath: Path) -> Recipe:
         instructions=instructions,
         notes=notes,
         source_path=filepath,
+        source=metadata.get("source"),
+        source_name=metadata.get("source_name"),
+        photo_credit=metadata.get("photo_credit"),
     )
 
 

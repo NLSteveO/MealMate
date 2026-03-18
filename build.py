@@ -9,7 +9,21 @@ from mealmate.parser import load_all_recipes
 
 RECIPES_DIR = Path(__file__).parent / "recipes"
 SYNONYMS_PATH = Path(__file__).parent / "data" / "ingredients.json"
+PHOTOS_DIR = Path(__file__).parent / "web" / "photos"
 OUTPUT_PATH = Path(__file__).parent / "web" / "data" / "recipes.json"
+
+PHOTO_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp")
+
+
+def find_photo(slug):
+    """Find a photo file matching the recipe slug, if one exists."""
+    if not PHOTOS_DIR.exists():
+        return None
+    for ext in PHOTO_EXTENSIONS:
+        path = PHOTOS_DIR / f"{slug}{ext}"
+        if path.exists():
+            return f"photos/{slug}{ext}"
+    return None
 
 
 def recipe_to_dict(recipe):
@@ -32,6 +46,10 @@ def recipe_to_dict(recipe):
         ],
         "instructions": recipe.instructions,
         "notes": recipe.notes,
+        "source": recipe.source,
+        "source_name": recipe.source_name,
+        "photo_credit": recipe.photo_credit,
+        "photo": find_photo(recipe.slug),
     }
 
 

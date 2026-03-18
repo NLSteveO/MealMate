@@ -884,6 +884,44 @@ body {
 .recipe-card:nth-child(9) { animation-delay: 0.24s; }
 .recipe-card:nth-child(10) { animation-delay: 0.27s; }
 
+/* ---- Recipe Photo ---- */
+
+.recipe-photo {
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  max-height: 360px;
+}
+
+.recipe-photo img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- Recipe Credits ---- */
+
+.recipe-credits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.recipe-credits a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.recipe-credits a:hover {
+  text-decoration: underline;
+}
+
 /* ---- Similar Recipes ---- */
 
 .similar-recipes {
