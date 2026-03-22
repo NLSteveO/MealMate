@@ -4,6 +4,7 @@ servings: 4
 prep_time: 10 min
 cook_time: 15 min
 tags: [breakfast, classic]
+needs_review: true
 ingredients:
   - item: eggs
     amount: 2

@@ -85,7 +85,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "banana-bread",
@@ -148,7 +148,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "beef-tacos",
@@ -229,7 +229,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "chicken-fajitas",
@@ -310,7 +310,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "chicken-stir-fry",
@@ -379,7 +379,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "chilli",
@@ -496,7 +496,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "chocolate-cake",
@@ -613,7 +613,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "costco-italian-sausages",
@@ -640,7 +640,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "creamy-chicken-enchiladas",
@@ -739,7 +739,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "elise-wraps",
@@ -839,7 +839,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "german-pancakes",
@@ -901,7 +901,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "marinade-sauce",
@@ -958,7 +958,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "mongolian-beef",
@@ -1027,7 +1027,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "oven-baked-chicken-wings",
@@ -1055,7 +1055,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "pico-de-gallo",
@@ -1113,7 +1113,7 @@
       "source_name": "The Pioneer Woman",
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "spaghetti-bolognese",
@@ -1194,7 +1194,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "sweet-and-sour-sauce",
@@ -1257,7 +1257,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "taco-fritos-corn-salad",
@@ -1357,7 +1357,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "vegetable-fried-rice",
@@ -1438,7 +1438,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     },
     {
       "slug": "waffles",
@@ -1500,7 +1500,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": false
+      "needs_review": true
     }
   ],
   "synonyms": {

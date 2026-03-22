@@ -4,6 +4,7 @@ servings: 6
 prep_time: 15 min
 cook_time: 0 min
 tags: [salad, no-cook, summer, party]
+needs_review: true
 ingredients:
   - item: corn
     amount: 1

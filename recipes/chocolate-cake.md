@@ -4,6 +4,7 @@ servings: 12
 prep_time: 15 min
 cook_time: 45 min
 tags: [baking, dessert, chocolate]
+needs_review: true
 ingredients:
   - item: all purpose flour
     amount: 1.75

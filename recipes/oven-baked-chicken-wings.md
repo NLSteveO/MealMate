@@ -4,6 +4,7 @@ servings: 4
 prep_time: 10 min
 cook_time: 35 min
 tags: [chicken, simple, snack, game-day]
+needs_review: true
 ingredients:
   - item: chicken wings
     amount: 2

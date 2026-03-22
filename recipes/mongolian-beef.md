@@ -4,6 +4,7 @@ servings: 4
 prep_time: 15 min
 cook_time: 15 min
 tags: [asian, beef, quick]
+needs_review: true
 ingredients:
   - item: beef stir-fry strips
     amount: 350

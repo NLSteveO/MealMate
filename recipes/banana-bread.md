@@ -4,6 +4,7 @@ servings: 8
 prep_time: 15 min
 cook_time: 1 hr
 tags: [baking, breakfast, dessert]
+needs_review: true
 ingredients:
   - item: sugar
     amount: 1

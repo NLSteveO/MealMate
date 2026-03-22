@@ -4,6 +4,7 @@ servings: 4
 prep_time: 5 min
 cook_time: 0 min
 tags: [sauce, marinade, condiment]
+needs_review: true
 ingredients:
   - item: soy sauce
     amount: 2

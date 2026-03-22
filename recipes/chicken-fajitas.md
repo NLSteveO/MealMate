@@ -4,6 +4,7 @@ servings: 4
 prep_time: 15 min
 cook_time: 20 min
 tags: [mexican, quick, weeknight]
+needs_review: true
 ingredients:
   - item: chicken breast
     amount: 1.5
