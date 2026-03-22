@@ -228,6 +228,9 @@
       html += '<div class="recipe-grid">';
       filtered.forEach(function (r) {
         html += '<a class="recipe-card" href="#/recipe/' + r.slug + '">';
+        if (r.needs_review) {
+          html += '<span class="review-badge">Needs Review</span>';
+        }
         html += "<h2>" + escapeHtml(r.title) + "</h2>";
 
         var metaParts = [];
@@ -279,6 +282,10 @@
     var html = "";
 
     html += '<a href="#/" class="back-link">&larr; All Recipes</a>';
+
+    if (recipe.needs_review) {
+      html += '<div class="review-banner">This recipe hasn\'t been reviewed yet and may need corrections</div>';
+    }
 
     html += '<div class="recipe-detail-header">';
     html += "<h1>" + escapeHtml(recipe.title) + "</h1>";

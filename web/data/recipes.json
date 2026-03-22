@@ -84,7 +84,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "banana-bread",
@@ -146,7 +147,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "beef-tacos",
@@ -226,7 +228,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "chicken-fajitas",
@@ -306,7 +309,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "chicken-stir-fry",
@@ -374,7 +378,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "chilli",
@@ -490,7 +495,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "chocolate-cake",
@@ -606,7 +612,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "costco-italian-sausages",
@@ -632,7 +639,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "creamy-chicken-enchiladas",
@@ -730,7 +738,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "elise-wraps",
@@ -829,7 +838,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "german-pancakes",
@@ -890,7 +900,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "marinade-sauce",
@@ -946,7 +957,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "mongolian-beef",
@@ -1014,7 +1026,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "oven-baked-chicken-wings",
@@ -1041,7 +1054,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "pico-de-gallo",
@@ -1098,7 +1112,8 @@
       "source": "https://www.thepioneerwoman.com/food-cooking/recipes/a12379/pico-de-gallo/",
       "source_name": "The Pioneer Woman",
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "spaghetti-bolognese",
@@ -1178,7 +1193,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "sweet-and-sour-sauce",
@@ -1240,7 +1256,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "taco-fritos-corn-salad",
@@ -1339,7 +1356,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "vegetable-fried-rice",
@@ -1419,7 +1437,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     },
     {
       "slug": "waffles",
@@ -1480,7 +1499,8 @@
       "source": null,
       "source_name": null,
       "photo_credit": null,
-      "photo": null
+      "photo": null,
+      "needs_review": false
     }
   ],
   "synonyms": {

@@ -50,6 +50,7 @@ def recipe_to_dict(recipe):
         "source_name": recipe.source_name,
         "photo_credit": recipe.photo_credit,
         "photo": find_photo(recipe.slug),
+        "needs_review": recipe.needs_review,
     }
 
 

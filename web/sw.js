@@ -1,4 +1,4 @@
-const CACHE_NAME = "mealmate-v8";
+const CACHE_NAME = "mealmate-v9";
 const ASSETS = [
   "./",
   "./index.html",
