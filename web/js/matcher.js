@@ -78,9 +78,87 @@ var MealMatcher = (function () {
     return matches.slice(0, limit);
   }
 
+  function mergeIngredientSets(recipes) {
+    var combined = {};
+    recipes.forEach(function (r) {
+      var set = getIngredientSet(r);
+      Object.keys(set).forEach(function (k) { combined[k] = true; });
+    });
+    return combined;
+  }
+
+  function countOverlap(recipes) {
+    var individual = 0;
+    recipes.forEach(function (r) {
+      individual += Object.keys(getIngredientSet(r)).length;
+    });
+    var unique = Object.keys(mergeIngredientSets(recipes)).length;
+    return { unique: unique, overlap: individual - unique };
+  }
+
+  function findMealPlan(allRecipes, numMeals, locked) {
+    locked = locked || [];
+    var selected = locked.slice();
+    var selectedSlugs = {};
+    selected.forEach(function (r) { selectedSlugs[r.slug] = true; });
+
+    if (selected.length === 0) {
+      var idx = Math.floor(Math.random() * allRecipes.length);
+      selected.push(allRecipes[idx]);
+      selectedSlugs[allRecipes[idx].slug] = true;
+    }
+
+    while (selected.length < numMeals) {
+      var combinedSet = mergeIngredientSets(selected);
+      var candidates = [];
+      var maxOverlap = -1;
+
+      allRecipes.forEach(function (r) {
+        if (selectedSlugs[r.slug]) return;
+        var candidateSet = getIngredientSet(r);
+        var overlap = 0;
+        Object.keys(candidateSet).forEach(function (k) {
+          if (combinedSet[k]) overlap++;
+        });
+        candidates.push({ recipe: r, overlap: overlap });
+        if (overlap > maxOverlap) maxOverlap = overlap;
+      });
+
+      if (candidates.length === 0) break;
+
+      var pool = candidates.filter(function (c) {
+        return c.overlap >= Math.max(0, maxOverlap - 2);
+      });
+      var pick = pool[Math.floor(Math.random() * pool.length)];
+      selected.push(pick.recipe);
+      selectedSlugs[pick.recipe.slug] = true;
+    }
+
+    return selected;
+  }
+
+  function rankForPlan(allRecipes, currentRecipes, excludeSlugs) {
+    var combinedSet = mergeIngredientSets(currentRecipes);
+    var results = [];
+    allRecipes.forEach(function (r) {
+      if (excludeSlugs[r.slug]) return;
+      var candidateSet = getIngredientSet(r);
+      var overlap = 0;
+      Object.keys(candidateSet).forEach(function (k) {
+        if (combinedSet[k]) overlap++;
+      });
+      results.push({ recipe: r, overlap: overlap });
+    });
+    results.sort(function (a, b) { return b.overlap - a.overlap; });
+    return results;
+  }
+
   return {
     loadSynonyms: loadSynonyms,
     findSimilar: findSimilar,
+    findMealPlan: findMealPlan,
+    rankForPlan: rankForPlan,
+    countOverlap: countOverlap,
     normalize: normalize,
   };
 })();

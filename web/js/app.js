@@ -188,6 +188,21 @@
 
   // ---- Routing ----
 
+  function updateTabState(hash) {
+    document.querySelectorAll(".tab-item").forEach(function (tab) {
+      tab.classList.remove("active");
+    });
+    var sidebarLink = document.getElementById("sidebarPlannerLink");
+    if (sidebarLink) sidebarLink.classList.remove("active");
+
+    if (hash === "#/planner") {
+      document.querySelector('[data-tab="planner"]').classList.add("active");
+      if (sidebarLink) sidebarLink.classList.add("active");
+    } else {
+      document.querySelector('[data-tab="recipes"]').classList.add("active");
+    }
+  }
+
   function route() {
     var hash = window.location.hash || "#/";
 
@@ -200,7 +215,11 @@
       }
     }
 
-    if (hash.startsWith("#/recipe/")) {
+    updateTabState(hash);
+
+    if (hash === "#/planner") {
+      renderPlanner();
+    } else if (hash.startsWith("#/recipe/")) {
       var slug = hash.replace("#/recipe/", "");
       renderRecipeDetail(slug);
     } else {
@@ -486,6 +505,269 @@
       app.removeEventListener("touchend", onTouchEnd);
     };
   }
+
+  // ---- Meal Planner ----
+
+  var planState = { mealCount: 3, slots: [], locks: [] };
+
+  function savePlan() {
+    var data = {
+      mealCount: planState.mealCount,
+      slugs: planState.slots.map(function (r) { return r ? r.slug : null; }),
+      locks: planState.locks,
+    };
+    localStorage.setItem("mealmate-plan", JSON.stringify(data));
+  }
+
+  function loadPlan() {
+    try {
+      var raw = localStorage.getItem("mealmate-plan");
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      planState.mealCount = data.mealCount || 3;
+      planState.locks = data.locks || [];
+      planState.slots = (data.slugs || []).map(function (slug) {
+        if (!slug) return null;
+        return recipes.find(function (r) { return r.slug === slug; }) || null;
+      });
+      while (planState.slots.length < planState.mealCount) {
+        planState.slots.push(null);
+        planState.locks.push(false);
+      }
+    } catch (e) { /* ignore corrupt data */ }
+  }
+
+  function clearPlan() {
+    planState.slots = [];
+    planState.locks = [];
+    for (var i = 0; i < planState.mealCount; i++) {
+      planState.slots.push(null);
+      planState.locks.push(false);
+    }
+    savePlan();
+  }
+
+  function suggestMeals() {
+    var locked = [];
+    planState.slots.forEach(function (r, i) {
+      if (r && planState.locks[i]) locked.push(r);
+    });
+    var suggested = MealMatcher.findMealPlan(recipes, planState.mealCount, locked);
+    planState.slots = suggested.slice();
+    while (planState.slots.length < planState.mealCount) planState.slots.push(null);
+    planState.locks = planState.slots.map(function (r, i) {
+      if (!r) return false;
+      return locked.some(function (l) { return l.slug === r.slug; });
+    });
+    savePlan();
+  }
+
+  function setMealCount(n) {
+    planState.mealCount = n;
+    while (planState.slots.length < n) {
+      planState.slots.push(null);
+      planState.locks.push(false);
+    }
+    if (planState.slots.length > n) {
+      planState.slots = planState.slots.slice(0, n);
+      planState.locks = planState.locks.slice(0, n);
+    }
+    savePlan();
+  }
+
+  var pickerSlotIndex = -1;
+
+  function openPicker(slotIndex) {
+    pickerSlotIndex = slotIndex;
+    var modal = document.getElementById("pickerModal");
+    var input = document.getElementById("pickerSearchInput");
+    modal.classList.add("open");
+    input.value = "";
+    input.focus();
+    renderPickerList("");
+  }
+
+  function closePicker() {
+    document.getElementById("pickerModal").classList.remove("open");
+    pickerSlotIndex = -1;
+  }
+
+  function renderPickerList(query) {
+    var listEl = document.getElementById("pickerList");
+    var excludeSlugs = {};
+    planState.slots.forEach(function (r, i) {
+      if (r && i !== pickerSlotIndex) excludeSlugs[r.slug] = true;
+    });
+
+    var lockedRecipes = [];
+    planState.slots.forEach(function (r, i) {
+      if (r && i !== pickerSlotIndex && planState.locks[i]) lockedRecipes.push(r);
+    });
+
+    var ranked;
+    if (lockedRecipes.length > 0) {
+      ranked = MealMatcher.rankForPlan(recipes, lockedRecipes, excludeSlugs);
+    } else {
+      ranked = recipes.filter(function (r) {
+        return !excludeSlugs[r.slug];
+      }).map(function (r) { return { recipe: r, overlap: 0 }; });
+    }
+
+    if (query) {
+      var q = query.toLowerCase();
+      ranked = ranked.filter(function (item) {
+        return item.recipe.title.toLowerCase().includes(q);
+      });
+    }
+
+    var html = "";
+    ranked.forEach(function (item) {
+      html += '<button class="picker-item" data-slug="' + item.recipe.slug + '">';
+      html += '<span class="picker-item-title">' + escapeHtml(item.recipe.title) + '</span>';
+      if (item.overlap > 0) {
+        html += '<span class="picker-item-overlap">' + item.overlap + ' shared</span>';
+      }
+      html += '</button>';
+    });
+
+    if (ranked.length === 0) {
+      html = '<div class="picker-empty">No recipes found</div>';
+    }
+
+    listEl.innerHTML = html;
+
+    listEl.querySelectorAll(".picker-item").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var slug = btn.getAttribute("data-slug");
+        var recipe = recipes.find(function (r) { return r.slug === slug; });
+        if (recipe && pickerSlotIndex >= 0) {
+          planState.slots[pickerSlotIndex] = recipe;
+          planState.locks[pickerSlotIndex] = false;
+          savePlan();
+          closePicker();
+          renderPlanner();
+        }
+      });
+    });
+  }
+
+  function renderPlanner() {
+    loadPlan();
+    if (planState.slots.length === 0) {
+      for (var i = 0; i < planState.mealCount; i++) {
+        planState.slots.push(null);
+        planState.locks.push(false);
+      }
+    }
+
+    var html = '';
+    html += '<div class="planner-header">';
+    html += '<h1>Meal Planner</h1>';
+    html += '<p class="subtitle">Plan meals with overlapping ingredients to save on shopping</p>';
+    html += '</div>';
+
+    html += '<div class="planner-controls">';
+    html += '<div class="planner-count">';
+    html += '<span class="planner-count-label">Meals:</span>';
+    for (var c = 2; c <= 5; c++) {
+      html += '<button class="planner-count-btn' + (planState.mealCount === c ? ' active' : '') + '" data-count="' + c + '">' + c + '</button>';
+    }
+    html += '</div>';
+    html += '<div class="planner-actions">';
+    html += '<button class="planner-btn planner-suggest-btn" id="plannerSuggest">Suggest</button>';
+    html += '<button class="planner-btn planner-clear-btn" id="plannerClear">Clear</button>';
+    html += '</div>';
+    html += '</div>';
+
+    var filledSlots = planState.slots.filter(function (r) { return r !== null; });
+    if (filledSlots.length >= 2) {
+      var stats = MealMatcher.countOverlap(filledSlots);
+      html += '<div class="planner-stats">';
+      html += '<span>' + stats.unique + ' unique ingredient' + (stats.unique !== 1 ? 's' : '') + '</span>';
+      if (stats.overlap > 0) {
+        html += '<span class="planner-stats-overlap">' + stats.overlap + ' shared across meals</span>';
+      }
+      html += '</div>';
+    }
+
+    html += '<div class="planner-slots">';
+    for (var s = 0; s < planState.mealCount; s++) {
+      var recipe = planState.slots[s];
+      var locked = planState.locks[s];
+      html += '<div class="planner-slot' + (recipe ? '' : ' empty') + '" data-slot="' + s + '">';
+      if (recipe) {
+        html += '<div class="planner-slot-content">';
+        html += '<div class="planner-slot-info">';
+        html += '<span class="planner-slot-num">Meal ' + (s + 1) + '</span>';
+        html += '<h3 class="planner-slot-title">' + escapeHtml(recipe.title) + '</h3>';
+        var meta = [];
+        if (recipe.prep_time) meta.push('Prep: ' + recipe.prep_time);
+        if (recipe.cook_time) meta.push('Cook: ' + recipe.cook_time);
+        if (meta.length) {
+          html += '<span class="planner-slot-meta">' + meta.join(' &middot; ') + '</span>';
+        }
+        html += '</div>';
+        html += '<div class="planner-slot-actions">';
+        html += '<button class="planner-lock-btn' + (locked ? ' locked' : '') + '" data-slot="' + s + '" title="' + (locked ? 'Unlock' : 'Lock') + '">';
+        html += locked ? '&#128274;' : '&#128275;';
+        html += '</button>';
+        html += '<button class="planner-swap-btn" data-slot="' + s + '">Swap</button>';
+        html += '</div>';
+        html += '</div>';
+      } else {
+        html += '<button class="planner-slot-empty-btn" data-slot="' + s + '">';
+        html += '<span class="planner-slot-num">Meal ' + (s + 1) + '</span>';
+        html += '<span>Tap to pick a recipe</span>';
+        html += '</button>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+
+    app.innerHTML = html;
+    app.scrollTop = 0;
+
+    document.querySelectorAll(".planner-count-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setMealCount(parseInt(btn.getAttribute("data-count"), 10));
+        renderPlanner();
+      });
+    });
+
+    document.getElementById("plannerSuggest").addEventListener("click", function () {
+      suggestMeals();
+      renderPlanner();
+    });
+
+    document.getElementById("plannerClear").addEventListener("click", function () {
+      clearPlan();
+      renderPlanner();
+    });
+
+    document.querySelectorAll(".planner-swap-btn, .planner-slot-empty-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        openPicker(parseInt(btn.getAttribute("data-slot"), 10));
+      });
+    });
+
+    document.querySelectorAll(".planner-lock-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var idx = parseInt(btn.getAttribute("data-slot"), 10);
+        planState.locks[idx] = !planState.locks[idx];
+        savePlan();
+        renderPlanner();
+      });
+    });
+  }
+
+  // Picker modal events
+  document.getElementById("pickerBackdrop").addEventListener("click", closePicker);
+  document.getElementById("pickerClose").addEventListener("click", closePicker);
+  document.getElementById("pickerSearchInput").addEventListener("input", function (e) {
+    renderPickerList(e.target.value);
+  });
+
+  // ---- Instructions / Notes rendering ----
 
   function renderInstructions(text) {
     var lines = text.split("\n");
