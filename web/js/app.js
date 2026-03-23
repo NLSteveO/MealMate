@@ -4,6 +4,8 @@
   let recipes = [];
   let activeTag = null;
   let searchQuery = "";
+  let lastFilteredSlugs = [];
+  var detailCleanup = null;
 
   const app = document.getElementById("app");
   const recipeCountEl = document.getElementById("recipeCount");
@@ -189,6 +191,15 @@
   function route() {
     var hash = window.location.hash || "#/";
 
+    if (!hash.startsWith("#/recipe/")) {
+      var nav = document.getElementById("recipeNav");
+      if (nav) nav.remove();
+      if (detailCleanup) {
+        detailCleanup();
+        detailCleanup = null;
+      }
+    }
+
     if (hash.startsWith("#/recipe/")) {
       var slug = hash.replace("#/recipe/", "");
       renderRecipeDetail(slug);
@@ -203,6 +214,7 @@
 
   function renderContent() {
     var filtered = filterRecipes();
+    lastFilteredSlugs = filtered.map(function (r) { return r.slug; });
     var html = "";
 
     html += '<div class="content-hero">';
@@ -399,6 +411,30 @@
     app.innerHTML = html;
     app.scrollTop = 0;
 
+    var navSlugs = lastFilteredSlugs.length > 1 ? lastFilteredSlugs : recipes.map(function (r) { return r.slug; });
+    var currentIdx = navSlugs.indexOf(slug);
+    var prevSlug = currentIdx > 0 ? navSlugs[currentIdx - 1] : null;
+    var nextSlug = currentIdx < navSlugs.length - 1 ? navSlugs[currentIdx + 1] : null;
+
+    var oldNav = document.getElementById("recipeNav");
+    if (oldNav) oldNav.remove();
+
+    if (navSlugs.length > 1 && currentIdx !== -1) {
+      var navEl = document.createElement("div");
+      navEl.className = "recipe-nav";
+      navEl.id = "recipeNav";
+      var navHtml = "";
+      if (prevSlug) {
+        navHtml += '<a class="recipe-nav-btn" href="#/recipe/' + prevSlug + '">&larr; Prev</a>';
+      }
+      navHtml += '<span class="recipe-nav-counter">' + (currentIdx + 1) + ' of ' + navSlugs.length + '</span>';
+      if (nextSlug) {
+        navHtml += '<a class="recipe-nav-btn" href="#/recipe/' + nextSlug + '">Next &rarr;</a>';
+      }
+      navEl.innerHTML = navHtml;
+      document.body.appendChild(navEl);
+    }
+
     app.querySelectorAll(".ingredient-list li").forEach(function (li) {
       li.addEventListener("click", function () {
         li.classList.toggle("checked");
@@ -406,6 +442,49 @@
         check.innerHTML = li.classList.contains("checked") ? "&#10003;" : "";
       });
     });
+
+    if (detailCleanup) {
+      detailCleanup();
+      detailCleanup = null;
+    }
+
+    function navigateTo(targetSlug) {
+      if (targetSlug) {
+        window.location.hash = "#/recipe/" + targetSlug;
+      }
+    }
+
+    function onKeyDown(e) {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      if (e.key === "ArrowLeft") { e.preventDefault(); navigateTo(prevSlug); }
+      if (e.key === "ArrowRight") { e.preventDefault(); navigateTo(nextSlug); }
+    }
+
+    var touchStartX = 0;
+    var touchStartY = 0;
+
+    function onTouchStart(e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }
+
+    function onTouchEnd(e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      var dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+      if (dx < 0) { navigateTo(nextSlug); }
+      else { navigateTo(prevSlug); }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    app.addEventListener("touchstart", onTouchStart, { passive: true });
+    app.addEventListener("touchend", onTouchEnd);
+
+    detailCleanup = function () {
+      document.removeEventListener("keydown", onKeyDown);
+      app.removeEventListener("touchstart", onTouchStart);
+      app.removeEventListener("touchend", onTouchEnd);
+    };
   }
 
   function renderInstructions(text) {
