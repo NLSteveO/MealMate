@@ -64,6 +64,10 @@
     searchQuery = value;
     searchInput.value = value;
     searchInputMobile.value = value;
+    if (window.location.hash === "#/planner") {
+      window.location.hash = "#/";
+      return;
+    }
     renderContent();
   }
 
@@ -174,7 +178,11 @@
           var tag = btn.getAttribute("data-tag");
           activeTag = tag || null;
           renderSidebarTags();
-          renderContent();
+          if (window.location.hash === "#/planner") {
+            window.location.hash = "#/";
+          } else {
+            renderContent();
+          }
           closeDrawer();
           if (window.location.hash.startsWith("#/recipe/")) {
             window.location.hash = "#/";
