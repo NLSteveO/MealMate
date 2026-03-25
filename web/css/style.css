@@ -885,30 +885,43 @@ body {
 .recipe-card:nth-child(9) { animation-delay: 0.24s; }
 .recipe-card:nth-child(10) { animation-delay: 0.27s; }
 
-/* ---- Sidebar Planner Link ---- */
+/* ---- Sidebar Navigation Links ---- */
 
-.sidebar-planner-link {
+.sidebar-nav-links {
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1rem;
-  margin: 0.5rem 0.75rem;
-  border-radius: var(--radius-sm);
-  background: var(--accent-subtle);
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: background var(--transition);
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
 }
 
-.sidebar-planner-link:hover,
-.sidebar-planner-link.active {
+.sidebar-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1;
+  justify-content: center;
+  padding: 0.55rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-content);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: all var(--transition);
+}
+
+.sidebar-nav-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.sidebar-nav-link.active {
   background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
 }
 
-.sidebar-planner-link svg {
+.sidebar-nav-link svg {
   flex-shrink: 0;
 }
 

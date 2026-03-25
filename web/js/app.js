@@ -6,6 +6,7 @@
   let searchQuery = "";
   let lastFilteredSlugs = [];
   var detailCleanup = null;
+  var lastRecipeHash = "#/";
 
   const app = document.getElementById("app");
   const recipeCountEl = document.getElementById("recipeCount");
@@ -192,14 +193,18 @@
     document.querySelectorAll(".tab-item").forEach(function (tab) {
       tab.classList.remove("active");
     });
-    var sidebarLink = document.getElementById("sidebarPlannerLink");
-    if (sidebarLink) sidebarLink.classList.remove("active");
+    document.querySelectorAll(".sidebar-nav-link").forEach(function (link) {
+      link.classList.remove("active");
+    });
 
     if (hash === "#/planner") {
       document.querySelector('[data-tab="planner"]').classList.add("active");
-      if (sidebarLink) sidebarLink.classList.add("active");
+      var plannerLink = document.getElementById("sidebarPlannerLink");
+      if (plannerLink) plannerLink.classList.add("active");
     } else {
       document.querySelector('[data-tab="recipes"]').classList.add("active");
+      var recipesLink = document.getElementById("sidebarRecipesLink");
+      if (recipesLink) recipesLink.classList.add("active");
     }
   }
 
@@ -213,6 +218,14 @@
         detailCleanup();
         detailCleanup = null;
       }
+    }
+
+    if (hash !== "#/planner") {
+      lastRecipeHash = hash;
+      var recipesLink = document.getElementById("sidebarRecipesLink");
+      if (recipesLink) recipesLink.href = lastRecipeHash;
+      var mobileTab = document.getElementById("mobileRecipesTab");
+      if (mobileTab) mobileTab.href = lastRecipeHash;
     }
 
     updateTabState(hash);
