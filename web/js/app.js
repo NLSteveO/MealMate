@@ -642,7 +642,7 @@
         var recipe = recipes.find(function (r) { return r.slug === slug; });
         if (recipe && pickerSlotIndex >= 0) {
           planState.slots[pickerSlotIndex] = recipe;
-          planState.locks[pickerSlotIndex] = false;
+          planState.locks[pickerSlotIndex] = true;
           savePlan();
           closePicker();
           renderPlanner();
