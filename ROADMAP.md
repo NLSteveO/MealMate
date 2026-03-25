@@ -18,11 +18,13 @@
 - **Ingredient breakdown** -- Show detailed per-recipe and combined ingredient lists on the meal planner (unique items, shared items, quantities) to help with shopping
 
 ### Meal planner improvements
-- **Desktop planner/recipes toggle** -- On desktop, filtering/searching from the planner stays on `#/planner` instead of switching to the recipe list. Need a clear way to switch between views (sidebar toggle or dedicated button)
+- ~~**Desktop planner/recipes toggle**~~ Done
+- ~~**Auto-lock first pick**~~ Done
+- ~~**Planner tag filter**~~ Done (quick-exclude buttons for breakfast, sauces/condiments, desserts)
 - **Clickable planner slots** -- Tapping a recipe in the planner should do something: either navigate to its detail page or expand inline to show its ingredient list (grouped by shared vs independent)
-- **Auto-lock first pick** -- When the user manually picks the first recipe, auto-lock it so "Suggest" fills the remaining slots without replacing their choice
 - **Expanded ingredient view** -- Allow expanding planner slots to show ingredients grouped by shared/independent, as an alternative or complement to the stats bar
-- **Planner tag filter** -- Settings toggle or modal to exclude certain tags/categories (e.g. breakfast, dessert, sauces) from planner suggestions
+- **Full tag filter** -- Expand the quick-exclude buttons to show all tags for finer control
+- **Tag cleanup** -- Review and consolidate recipe tags (remove redundant/overlapping tags, standardise naming)
 
 ## Longer-term
 

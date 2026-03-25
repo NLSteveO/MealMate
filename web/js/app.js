@@ -522,6 +522,38 @@
   // ---- Meal Planner ----
 
   var planState = { mealCount: 3, slots: [], locks: [] };
+  var excludedTags = {};
+
+  function saveExcludedTags() {
+    localStorage.setItem("mealmate-excluded-tags", JSON.stringify(Object.keys(excludedTags)));
+  }
+
+  function loadExcludedTags() {
+    try {
+      var raw = localStorage.getItem("mealmate-excluded-tags");
+      if (!raw) return;
+      excludedTags = {};
+      JSON.parse(raw).forEach(function (t) { excludedTags[t] = true; });
+    } catch (e) { /* ignore */ }
+  }
+
+  function getFilteredRecipes() {
+    var tags = Object.keys(excludedTags);
+    if (tags.length === 0) return recipes;
+    return recipes.filter(function (r) {
+      return !r.tags.some(function (t) { return excludedTags[t]; });
+    });
+  }
+
+  function getAllPlannerTags() {
+    var tagCounts = {};
+    recipes.forEach(function (r) {
+      (r.tags || []).forEach(function (t) {
+        tagCounts[t] = (tagCounts[t] || 0) + 1;
+      });
+    });
+    return Object.keys(tagCounts).sort();
+  }
 
   function savePlan() {
     var data = {
@@ -565,7 +597,7 @@
     planState.slots.forEach(function (r, i) {
       if (r && planState.locks[i]) locked.push(r);
     });
-    var suggested = MealMatcher.findMealPlan(recipes, planState.mealCount, locked);
+    var suggested = MealMatcher.findMealPlan(getFilteredRecipes(), planState.mealCount, locked);
     planState.slots = suggested.slice();
     while (planState.slots.length < planState.mealCount) planState.slots.push(null);
     planState.locks = planState.slots.map(function (r, i) {
@@ -617,11 +649,12 @@
       if (r && i !== pickerSlotIndex && planState.locks[i]) lockedRecipes.push(r);
     });
 
+    var pool = getFilteredRecipes();
     var ranked;
     if (lockedRecipes.length > 0) {
-      ranked = MealMatcher.rankForPlan(recipes, lockedRecipes, excludeSlugs);
+      ranked = MealMatcher.rankForPlan(pool, lockedRecipes, excludeSlugs);
     } else {
-      ranked = recipes.filter(function (r) {
+      ranked = pool.filter(function (r) {
         return !excludeSlugs[r.slug];
       }).map(function (r) { return { recipe: r, overlap: 0 }; });
     }
@@ -666,6 +699,7 @@
 
   function renderPlanner() {
     loadPlan();
+    loadExcludedTags();
     if (planState.slots.length === 0) {
       for (var i = 0; i < planState.mealCount; i++) {
         planState.slots.push(null);
@@ -690,6 +724,19 @@
     html += '<button class="planner-btn planner-suggest-btn" id="plannerSuggest">Suggest</button>';
     html += '<button class="planner-btn planner-clear-btn" id="plannerClear">Clear</button>';
     html += '</div>';
+    html += '</div>';
+
+    var quickFilters = [
+      { label: "Breakfast", tags: ["breakfast"] },
+      { label: "Sauces", tags: ["sauce", "condiment", "marinade"] },
+      { label: "Desserts", tags: ["dessert", "baking"] },
+    ];
+    html += '<div class="planner-quick-filters">';
+    html += '<span class="planner-quick-label">Exclude:</span>';
+    quickFilters.forEach(function (f) {
+      var isActive = f.tags.some(function (t) { return excludedTags[t]; });
+      html += '<button class="planner-quick-btn' + (isActive ? ' active' : '') + '" data-tags="' + f.tags.join(",") + '">' + f.label + '</button>';
+    });
     html += '</div>';
 
     var filledSlots = planState.slots.filter(function (r) { return r !== null; });
@@ -755,6 +802,22 @@
     document.getElementById("plannerClear").addEventListener("click", function () {
       clearPlan();
       renderPlanner();
+    });
+
+    document.querySelectorAll(".planner-quick-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var tags = btn.getAttribute("data-tags").split(",");
+        var isActive = tags.some(function (t) { return excludedTags[t]; });
+        tags.forEach(function (t) {
+          if (isActive) {
+            delete excludedTags[t];
+          } else {
+            excludedTags[t] = true;
+          }
+        });
+        saveExcludedTags();
+        renderPlanner();
+      });
     });
 
     document.querySelectorAll(".planner-swap-btn, .planner-slot-empty-btn").forEach(function (btn) {

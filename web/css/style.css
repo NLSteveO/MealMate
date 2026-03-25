@@ -1159,6 +1159,46 @@ body {
   display: block;
 }
 
+/* ---- Planner Quick Filters ---- */
+
+.planner-quick-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.planner-quick-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.planner-quick-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.planner-quick-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.planner-quick-btn.active {
+  background: var(--text-muted);
+  border-color: var(--text-muted);
+  color: #fff;
+  text-decoration: line-through;
+}
+
 /* ---- Recipe Picker Modal ---- */
 
 .picker-modal {
