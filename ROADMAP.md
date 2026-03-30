@@ -22,7 +22,7 @@
 - ~~**Auto-lock first pick**~~ Done
 - ~~**Planner tag filter**~~ Done (quick-exclude buttons for breakfast, sauces/condiments, desserts)
 - ~~**Expanded ingredient view**~~ Done (plan-level breakdown below stats bar + per-slot expansion, both grouped by shared vs unique)
-- **Clickable planner slots** -- Tapping a recipe in the planner should navigate to its detail page
+- ~~**Clickable planner slots**~~ Done (title links to detail page with view arrow indicator)
 - **Full tag filter** -- Expand the quick-exclude buttons to show all tags for finer control
 - **Tag cleanup** -- Review and consolidate recipe tags (remove redundant/overlapping tags, standardise naming)
 

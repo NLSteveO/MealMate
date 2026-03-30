@@ -819,11 +819,9 @@
       if (recipe) {
         var isExpanded = !!expandedSlots[s];
         html += '<div class="planner-slot-content">';
-        html += '<div class="planner-slot-info planner-slot-expand" data-slot="' + s + '">';
+        html += '<div class="planner-slot-info">';
         html += '<span class="planner-slot-num">Meal ' + (s + 1) + '</span>';
-        html += '<h3 class="planner-slot-title">' + escapeHtml(recipe.title);
-        html += '<svg class="planner-expand-icon' + (isExpanded ? ' open' : '') + '" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
-        html += '</h3>';
+        html += '<h3 class="planner-slot-title"><a href="#/recipe/' + recipe.slug + '" class="planner-slot-link">' + escapeHtml(recipe.title) + ' <svg class="planner-view-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a></h3>';
         var meta = [];
         if (recipe.prep_time) meta.push('Prep: ' + recipe.prep_time);
         if (recipe.cook_time) meta.push('Cook: ' + recipe.cook_time);
@@ -832,6 +830,9 @@
         }
         html += '</div>';
         html += '<div class="planner-slot-actions">';
+        html += '<button class="planner-expand-btn" data-slot="' + s + '" title="' + (isExpanded ? 'Collapse' : 'Expand') + ' ingredients">';
+        html += '<svg class="planner-expand-icon' + (isExpanded ? ' open' : '') + '" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+        html += '</button>';
         html += '<button class="planner-lock-btn' + (locked ? ' locked' : '') + '" data-slot="' + s + '" title="' + (locked ? 'Unlock' : 'Lock') + '">';
         html += locked ? '&#128274;' : '&#128275;';
         html += '</button>';
@@ -918,9 +919,9 @@
       });
     });
 
-    document.querySelectorAll(".planner-slot-expand").forEach(function (el) {
-      el.addEventListener("click", function () {
-        var idx = parseInt(el.getAttribute("data-slot"), 10);
+    document.querySelectorAll(".planner-expand-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var idx = parseInt(btn.getAttribute("data-slot"), 10);
         expandedSlots[idx] = !expandedSlots[idx];
         renderPlanner();
       });

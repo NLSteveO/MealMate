@@ -1161,8 +1161,44 @@ body {
 
 /* ---- Planner Slot Expand ---- */
 
-.planner-slot-expand {
+.planner-slot-link {
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.planner-slot-link:hover {
+  color: var(--accent);
+}
+
+.planner-view-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.2rem;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+
+.planner-slot-link:hover .planner-view-icon {
+  color: var(--accent);
+}
+
+.planner-expand-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-content);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.planner-expand-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .planner-expand-icon {
