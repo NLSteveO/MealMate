@@ -115,7 +115,14 @@ body {
   letter-spacing: -0.5px;
 }
 
-.theme-toggle {
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.theme-toggle,
+.wake-toggle {
   background: var(--tag-bg);
   border: none;
   color: var(--text-muted);
@@ -128,15 +135,29 @@ body {
   transition: all var(--transition);
 }
 
-.theme-toggle:hover {
-  color: var(--accent);
-  background: var(--accent-subtle);
-  transform: rotate(15deg);
+@media (hover: hover) {
+  .theme-toggle:hover,
+  .wake-toggle:hover {
+    color: var(--accent);
+    background: var(--accent-subtle);
+    transform: rotate(15deg);
+  }
 }
 
 .icon-moon { display: none; }
 [data-theme="dark"] .icon-sun { display: none; }
 [data-theme="dark"] .icon-moon { display: block; }
+
+.wake-icon-open { display: none; }
+.wake-icon-closed { display: block; }
+
+.wake-toggle.active .wake-icon-open { display: block; }
+.wake-toggle.active .wake-icon-closed { display: none; }
+
+.wake-toggle.active {
+  background: var(--accent);
+  color: #fff;
+}
 
 .sidebar-search {
   padding: 0 18px 14px;

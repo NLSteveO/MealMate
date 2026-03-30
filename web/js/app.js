@@ -43,6 +43,66 @@
     .addEventListener("click", toggleTheme);
   initTheme();
 
+  // ---- Wake Lock (keep screen on) ----
+
+  var wakeLockSentinel = null;
+
+  function updateWakeButtons(active) {
+    document.querySelectorAll(".wake-toggle").forEach(function (btn) {
+      btn.classList.toggle("active", active);
+      btn.title = active ? "Screen lock on" : "Keep screen on";
+    });
+  }
+
+  async function requestWakeLock() {
+    try {
+      wakeLockSentinel = await navigator.wakeLock.request("screen");
+      wakeLockSentinel.addEventListener("release", function () {
+        wakeLockSentinel = null;
+      });
+      updateWakeButtons(true);
+      localStorage.setItem("mealmate-wakelock", "on");
+    } catch (e) {
+      updateWakeButtons(false);
+    }
+  }
+
+  function releaseWakeLock() {
+    if (wakeLockSentinel) {
+      wakeLockSentinel.release();
+      wakeLockSentinel = null;
+    }
+    updateWakeButtons(false);
+    localStorage.setItem("mealmate-wakelock", "off");
+  }
+
+  function toggleWakeLock() {
+    if (!("wakeLock" in navigator)) return;
+    if (wakeLockSentinel) {
+      releaseWakeLock();
+    } else {
+      requestWakeLock();
+    }
+  }
+
+  if ("wakeLock" in navigator) {
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible" && localStorage.getItem("mealmate-wakelock") === "on") {
+        requestWakeLock();
+      }
+    });
+    if (localStorage.getItem("mealmate-wakelock") === "on") {
+      requestWakeLock();
+    }
+  } else {
+    document.querySelectorAll(".wake-toggle").forEach(function (btn) {
+      btn.style.display = "none";
+    });
+  }
+
+  document.getElementById("wakeLock").addEventListener("click", toggleWakeLock);
+  document.getElementById("wakeLockMobile").addEventListener("click", toggleWakeLock);
+
   // ---- Filter Drawer (mobile) ----
 
   function openDrawer() {
