@@ -3,7 +3,7 @@
 ## Short-term
 
 - Lock screen on
-- Banana bread is approved, but make minor tweaks
+- ~~Banana bread is approved, but make minor tweaks~~ Done
 - Add more recipes to the collection
 - Add photos for existing recipes
 - Finish the unfinished cookie recipe
