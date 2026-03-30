@@ -530,6 +530,7 @@
   // ---- Meal Planner ----
 
   var planState = { mealCount: 3, slots: [], locks: [] };
+  var expandedSlots = {};
   var excludedTags = {};
 
   function saveExcludedTags() {
@@ -752,10 +753,62 @@
       var stats = MealMatcher.countOverlap(filledSlots);
       html += '<div class="planner-stats">';
       html += '<span>' + stats.unique + ' unique ingredient' + (stats.unique !== 1 ? 's' : '') + '</span>';
-      if (stats.overlap > 0) {
-        html += '<span class="planner-stats-overlap">' + stats.overlap + ' shared across meals</span>';
+      if (stats.shared > 0) {
+        html += '<span class="planner-stats-overlap">' + stats.shared + ' shared across meals</span>';
       }
+      html += '<button class="planner-stats-toggle" id="planStatsToggle">';
+      html += '<svg class="planner-expand-icon' + (expandedSlots["plan"] ? ' open' : '') + '" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+      html += '</button>';
       html += '</div>';
+
+      if (expandedSlots["plan"]) {
+        var ingMap = {};
+        filledSlots.forEach(function (r) {
+          r.ingredients.forEach(function (ing) {
+            var norm = MealMatcher.normalize(ing.item);
+            if (!ingMap[norm]) {
+              ingMap[norm] = { display: ing.quantity ? (ing.quantity + ' ' + ing.item) : ing.item, count: 0, recipes: [] };
+            }
+            ingMap[norm].count++;
+            ingMap[norm].recipes.push(r.title);
+          });
+        });
+
+        var sharedIngs = [];
+        var uniqueIngs = [];
+        Object.keys(ingMap).sort().forEach(function (k) {
+          if (ingMap[k].count > 1) {
+            sharedIngs.push(ingMap[k]);
+          } else {
+            uniqueIngs.push(ingMap[k]);
+          }
+        });
+
+        html += '<div class="planner-plan-ingredients">';
+        if (sharedIngs.length > 0) {
+          html += '<div class="planner-ing-group">';
+          html += '<span class="planner-ing-label shared">Shared (' + sharedIngs.length + ')</span>';
+          html += '<ul class="planner-ing-list">';
+          sharedIngs.forEach(function (item) {
+            html += '<li class="planner-ing shared">' + escapeHtml(item.display);
+            html += ' <span class="planner-ing-source">' + escapeHtml(item.recipes.join(', ')) + '</span>';
+            html += '</li>';
+          });
+          html += '</ul></div>';
+        }
+        if (uniqueIngs.length > 0) {
+          html += '<div class="planner-ing-group">';
+          html += '<span class="planner-ing-label unique">Unique (' + uniqueIngs.length + ')</span>';
+          html += '<ul class="planner-ing-list">';
+          uniqueIngs.forEach(function (item) {
+            html += '<li class="planner-ing unique">' + escapeHtml(item.display);
+            html += ' <span class="planner-ing-source">' + escapeHtml(item.recipes[0]) + '</span>';
+            html += '</li>';
+          });
+          html += '</ul></div>';
+        }
+        html += '</div>';
+      }
     }
 
     html += '<div class="planner-slots">';
@@ -764,10 +817,13 @@
       var locked = planState.locks[s];
       html += '<div class="planner-slot' + (recipe ? '' : ' empty') + '" data-slot="' + s + '">';
       if (recipe) {
+        var isExpanded = !!expandedSlots[s];
         html += '<div class="planner-slot-content">';
-        html += '<div class="planner-slot-info">';
+        html += '<div class="planner-slot-info planner-slot-expand" data-slot="' + s + '">';
         html += '<span class="planner-slot-num">Meal ' + (s + 1) + '</span>';
-        html += '<h3 class="planner-slot-title">' + escapeHtml(recipe.title) + '</h3>';
+        html += '<h3 class="planner-slot-title">' + escapeHtml(recipe.title);
+        html += '<svg class="planner-expand-icon' + (isExpanded ? ' open' : '') + '" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+        html += '</h3>';
         var meta = [];
         if (recipe.prep_time) meta.push('Prep: ' + recipe.prep_time);
         if (recipe.cook_time) meta.push('Cook: ' + recipe.cook_time);
@@ -782,6 +838,32 @@
         html += '<button class="planner-swap-btn" data-slot="' + s + '">Swap</button>';
         html += '</div>';
         html += '</div>';
+        if (isExpanded) {
+          var otherRecipes = planState.slots.filter(function (r, i) { return r && i !== s; });
+          var classified = MealMatcher.classifyIngredients(recipe, otherRecipes);
+          html += '<div class="planner-slot-ingredients">';
+          if (classified.shared.length > 0) {
+            html += '<div class="planner-ing-group">';
+            html += '<span class="planner-ing-label shared">Shared</span>';
+            html += '<ul class="planner-ing-list">';
+            classified.shared.forEach(function (ing) {
+              var text = ing.quantity ? (ing.quantity + ' ' + ing.item) : ing.item;
+              html += '<li class="planner-ing shared">' + escapeHtml(text) + '</li>';
+            });
+            html += '</ul></div>';
+          }
+          if (classified.unique.length > 0) {
+            html += '<div class="planner-ing-group">';
+            html += '<span class="planner-ing-label unique">Only this meal</span>';
+            html += '<ul class="planner-ing-list">';
+            classified.unique.forEach(function (ing) {
+              var text = ing.quantity ? (ing.quantity + ' ' + ing.item) : ing.item;
+              html += '<li class="planner-ing unique">' + escapeHtml(text) + '</li>';
+            });
+            html += '</ul></div>';
+          }
+          html += '</div>';
+        }
       } else {
         html += '<button class="planner-slot-empty-btn" data-slot="' + s + '">';
         html += '<span class="planner-slot-num">Meal ' + (s + 1) + '</span>';
@@ -801,6 +883,14 @@
         renderPlanner();
       });
     });
+
+    var statsToggle = document.getElementById("planStatsToggle");
+    if (statsToggle) {
+      statsToggle.addEventListener("click", function () {
+        expandedSlots["plan"] = !expandedSlots["plan"];
+        renderPlanner();
+      });
+    }
 
     document.getElementById("plannerSuggest").addEventListener("click", function () {
       suggestMeals();
@@ -824,6 +914,14 @@
           }
         });
         saveExcludedTags();
+        renderPlanner();
+      });
+    });
+
+    document.querySelectorAll(".planner-slot-expand").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var idx = parseInt(el.getAttribute("data-slot"), 10);
+        expandedSlots[idx] = !expandedSlots[idx];
         renderPlanner();
       });
     });

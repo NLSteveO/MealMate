@@ -1159,6 +1159,110 @@ body {
   display: block;
 }
 
+/* ---- Planner Slot Expand ---- */
+
+.planner-slot-expand {
+  cursor: pointer;
+}
+
+.planner-expand-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.35rem;
+  color: var(--text-muted);
+  transition: transform var(--transition);
+}
+
+.planner-expand-icon.open {
+  transform: rotate(180deg);
+}
+
+.planner-slot-ingredients {
+  padding: 0 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.planner-ing-group {
+  flex: 1;
+  min-width: 140px;
+  padding-top: 0.75rem;
+}
+
+.planner-ing-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+
+.planner-ing-label.shared {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.planner-ing-label.unique {
+  background: var(--tag-bg);
+  color: var(--text-secondary);
+}
+
+.planner-ing-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.planner-ing-list li {
+  font-size: 0.85rem;
+  padding: 0.2rem 0;
+  color: var(--text);
+}
+
+.planner-ing-list li.shared {
+  font-weight: 600;
+}
+
+.planner-ing-list li.unique {
+  color: var(--text-secondary);
+}
+
+/* ---- Planner Plan-level Ingredients ---- */
+
+.planner-stats-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.planner-plan-ingredients {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.planner-ing-source {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  font-style: italic;
+}
+
 /* ---- Planner Quick Filters ---- */
 
 .planner-quick-filters {

@@ -21,8 +21,8 @@
 - ~~**Desktop planner/recipes toggle**~~ Done
 - ~~**Auto-lock first pick**~~ Done
 - ~~**Planner tag filter**~~ Done (quick-exclude buttons for breakfast, sauces/condiments, desserts)
-- **Clickable planner slots** -- Tapping a recipe in the planner should do something: either navigate to its detail page or expand inline to show its ingredient list (grouped by shared vs independent)
-- **Expanded ingredient view** -- Allow expanding planner slots to show ingredients grouped by shared/independent, as an alternative or complement to the stats bar
+- ~~**Expanded ingredient view**~~ Done (plan-level breakdown below stats bar + per-slot expansion, both grouped by shared vs unique)
+- **Clickable planner slots** -- Tapping a recipe in the planner should navigate to its detail page
 - **Full tag filter** -- Expand the quick-exclude buttons to show all tags for finer control
 - **Tag cleanup** -- Review and consolidate recipe tags (remove redundant/overlapping tags, standardise naming)
 

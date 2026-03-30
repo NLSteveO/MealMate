@@ -88,12 +88,19 @@ var MealMatcher = (function () {
   }
 
   function countOverlap(recipes) {
-    var individual = 0;
+    var counts = {};
     recipes.forEach(function (r) {
-      individual += Object.keys(getIngredientSet(r)).length;
+      var set = getIngredientSet(r);
+      Object.keys(set).forEach(function (k) {
+        counts[k] = (counts[k] || 0) + 1;
+      });
     });
-    var unique = Object.keys(mergeIngredientSets(recipes)).length;
-    return { unique: unique, overlap: individual - unique };
+    var unique = Object.keys(counts).length;
+    var shared = 0;
+    Object.keys(counts).forEach(function (k) {
+      if (counts[k] > 1) shared++;
+    });
+    return { unique: unique, shared: shared };
   }
 
   function findMealPlan(allRecipes, numMeals, locked) {
@@ -153,12 +160,35 @@ var MealMatcher = (function () {
     return results;
   }
 
+  function classifyIngredients(recipe, otherRecipes) {
+    var mySet = getIngredientSet(recipe);
+    var othersSet = {};
+    otherRecipes.forEach(function (r) {
+      if (r.slug === recipe.slug) return;
+      var s = getIngredientSet(r);
+      Object.keys(s).forEach(function (k) { othersSet[k] = true; });
+    });
+
+    var shared = [];
+    var unique = [];
+    recipe.ingredients.forEach(function (ing) {
+      var norm = normalize(ing.item);
+      if (othersSet[norm]) {
+        shared.push(ing);
+      } else {
+        unique.push(ing);
+      }
+    });
+    return { shared: shared, unique: unique };
+  }
+
   return {
     loadSynonyms: loadSynonyms,
     findSimilar: findSimilar,
     findMealPlan: findMealPlan,
     rankForPlan: rankForPlan,
     countOverlap: countOverlap,
+    classifyIngredients: classifyIngredients,
     normalize: normalize,
   };
 })();
