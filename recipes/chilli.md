@@ -4,7 +4,7 @@ servings: 8
 prep_time: 20 min
 cook_time: 1-2 hrs
 tags: [comfort-food, batch-cooking, freezer-friendly]
-needs_review: true
+needs_review: false
 ingredients:
   - item: ground meat
     amount: 1

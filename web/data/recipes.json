@@ -8,8 +8,7 @@
       "cook_time": "1 hr",
       "tags": [
         "baking",
-        "dessert",
-        "rum"
+        "dessert"
       ],
       "ingredients": [
         {
@@ -85,14 +84,14 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "banana-bread",
       "title": "Banana Bread",
       "servings": 8,
       "prep_time": "15 min",
-      "cook_time": "1 hr",
+      "cook_time": "65-75 min",
       "tags": [
         "baking",
         "breakfast",
@@ -142,13 +141,13 @@
           "display": "2 whole eggs"
         }
       ],
-      "instructions": "1. Preheat oven to 375F\n2. Mash bananas to a thin batter\n3. Add sugar and eggs, beat together\n4. Add melted butter, salt, and baking soda\n5. Sift in flour and mix until combined\n6. Pour into a greased loaf tin\n7. Bake for approximately 1 hour or until a toothpick comes out clean",
-      "notes": "- The riper the bananas the better - brown spotted ones are ideal\n- Recipe from Nan O'Keefe",
+      "instructions": "1. Preheat oven to 325\u00b0F\n2. Mash bananas to a thin batter\n3. Add sugar and eggs, beat together\n4. Add melted butter, salt, and baking soda\n5. Sift in flour and mix until combined\n6. Pour into a greased loaf tin\n7. Bake for 65-75 minutes or until a toothpick comes out with a few moist crumbs \u2014 fully clean may mean it's overdone",
+      "notes": "- The riper the bananas the better - brown spotted ones are ideal\n- Use non-convection baking if possible\n- Add a loose foil tent (shaped like a roof) around the 30-minute mark to prevent over-browning; lightly anchor the edges if using convection\n- Original recipe called for 375\u00b0F and ~1 hour; the lower 325\u00b0F temp gives a more even bake but needs 65-75+ minutes\n- Recipe from Nan O'Keefe",
       "source": null,
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "beef-tacos",
@@ -229,7 +228,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "chicken-fajitas",
@@ -239,8 +238,7 @@
       "cook_time": "20 min",
       "tags": [
         "mexican",
-        "quick",
-        "weeknight"
+        "quick"
       ],
       "ingredients": [
         {
@@ -310,7 +308,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "chicken-stir-fry",
@@ -320,8 +318,7 @@
       "cook_time": "15 min",
       "tags": [
         "asian",
-        "quick",
-        "weeknight"
+        "quick"
       ],
       "ingredients": [
         {
@@ -379,7 +376,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "chilli",
@@ -496,7 +493,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "chocolate-cake",
@@ -613,7 +610,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "costco-italian-sausages",
@@ -640,7 +637,7 @@
       "source_name": null,
       "photo_credit": null,
       "photo": null,
-      "needs_review": true
+      "needs_review": false
     },
     {
       "slug": "creamy-chicken-enchiladas",

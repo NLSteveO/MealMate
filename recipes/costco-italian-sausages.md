@@ -4,7 +4,7 @@ servings: 4
 prep_time: 5 min
 cook_time: 35 min
 tags: [simple, sausage, oven-baked]
-needs_review: true
+needs_review: false
 ingredients:
   - item: italian sausages
     amount: 1

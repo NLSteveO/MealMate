@@ -4,7 +4,7 @@ servings: 4
 prep_time: 10 min
 cook_time: 15 min
 tags: [mexican, quick, family-friendly]
-needs_review: true
+needs_review: false
 ingredients:
   - item: ground beef
     amount: 1

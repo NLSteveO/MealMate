@@ -3,8 +3,8 @@ title: Chicken Stir Fry
 servings: 4
 prep_time: 15 min
 cook_time: 15 min
-tags: [asian, quick, weeknight]
-needs_review: true
+tags: [asian, quick]
+needs_review: false
 ingredients:
   - item: chicken breast
     amount: 1.5
